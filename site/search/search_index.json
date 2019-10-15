@@ -1,0 +1,299 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Welcome to the BabelProject Documentation\n\n\nGroup :  \nLes Papichulos\n\n\n\n\n[B5][CPP] - Babel - ismail.haouam@epitech.eu : Ismail Haouam (\nTeam Leader\n), Antoine Caullet, Arthur Brion, Mathis Pinsault\n\n\n\n\n\n\nAbout\n\n\nThis is our documentation for the Tek3 CPP_Project_Babel.\n\n\nThe goal of the project was to create a client/server architecture voice over IP application, similar to Skype or TeamSpeak.\n\n\nThe project is OS independent. It compiles and run on \nLinux\n, \nWindows\n and \nMacOs\n.\n\n\n\n\nRequirements\n\n\nIn order to use this project there are some requirements.\n\n\nYou'll need :\n\n\n\n\nGIT\n - used to clone the repository.\n\n\nCMAKE\n - used to build the project. (Require \nVERSION 2.8.11\n at least)\n\n\nCONAN\n - used to handle all dependencies.\n\n\nQT\n - used for the client's graphical user interface and any implementation detail on the client side. (Require \nVERSION 5.12.5\n at least)\n\n\nPORTAUDIO\n - used for anything sound related. (Require \nVERSION 190600.20161030\n at least)\n\n\nOPUS\n - used for the compression codec. (Require \nVERSION 1.3.1\n at least)\n\n\nBOOST\n - used on the server side. (Require \nVERSION 1.67.0\n at least)\n\n\nSQLITE3\n - used for storage.\n\n\n\n\nOnly those conan repositories are used :\n\n\n\n\nconan-center: \nhttps://bintray.com/conan/conan-center\n\n\nepitech: \nhttps://bintray.com/epitech/public-conan\n\n\nbincrafters: \nhttps://bintray.com/bincrafters/public-conan\n\n\n\n\n\n\nInstallation\n\n\n\n\ngit clone\n - Clone the project\n\n\nmkdir build\n - Create a dir at the root of the repository\n\n\ncd build\n - Go inside the dir previously created\n\n\nconan install ..\n - Install all dependencies using Conan by doing\n\n\ncmake .. -G \"Unix Makefiles\"\n - Use CMake to create Makefile \n\n\ncmake -build\n - Use CMake again to build the project",
+            "title": "Home"
+        },
+        {
+            "location": "/#welcome-to-the-babelproject-documentation",
+            "text": "Group :   Les Papichulos   [B5][CPP] - Babel - ismail.haouam@epitech.eu : Ismail Haouam ( Team Leader ), Antoine Caullet, Arthur Brion, Mathis Pinsault",
+            "title": "Welcome to the BabelProject Documentation"
+        },
+        {
+            "location": "/#about",
+            "text": "This is our documentation for the Tek3 CPP_Project_Babel.  The goal of the project was to create a client/server architecture voice over IP application, similar to Skype or TeamSpeak.  The project is OS independent. It compiles and run on  Linux ,  Windows  and  MacOs .",
+            "title": "About"
+        },
+        {
+            "location": "/#requirements",
+            "text": "In order to use this project there are some requirements.  You'll need :   GIT  - used to clone the repository.  CMAKE  - used to build the project. (Require  VERSION 2.8.11  at least)  CONAN  - used to handle all dependencies.  QT  - used for the client's graphical user interface and any implementation detail on the client side. (Require  VERSION 5.12.5  at least)  PORTAUDIO  - used for anything sound related. (Require  VERSION 190600.20161030  at least)  OPUS  - used for the compression codec. (Require  VERSION 1.3.1  at least)  BOOST  - used on the server side. (Require  VERSION 1.67.0  at least)  SQLITE3  - used for storage.   Only those conan repositories are used :   conan-center:  https://bintray.com/conan/conan-center  epitech:  https://bintray.com/epitech/public-conan  bincrafters:  https://bintray.com/bincrafters/public-conan",
+            "title": "Requirements"
+        },
+        {
+            "location": "/#installation",
+            "text": "git clone  - Clone the project  mkdir build  - Create a dir at the root of the repository  cd build  - Go inside the dir previously created  conan install ..  - Install all dependencies using Conan by doing  cmake .. -G \"Unix Makefiles\"  - Use CMake to create Makefile   cmake -build  - Use CMake again to build the project",
+            "title": "Installation"
+        },
+        {
+            "location": "/client/",
+            "text": "The Client Class\n\n\nThe class itself\n\n\n#ifndef CLIENT_HPP_\n#define CLIENT_HPP_\n\n#define LOGIN \"{LOGIN}::\"\n#define REGISTER \"{REGISTER}::\"\n#define ASKFOR \"{ASKFOR}::\"\n#define SEP \"::\"\n\n#include <QtGui/QMainWindow>\n#include <QtCore/QObject>\n#include <QtNetwork/QUdpSocket>\n#include <QtNetwork/QTcpSocket>\n#include <QtNetwork/QHostAddress>\n#include <QtCore/QByteArray>\n#include <arpa/inet.h>\n#include <string>\n#include <iostream>\n#include <vector>\n\nclass Client {\n    public: // Constructor && Destructor\n        Client(std::string pseudo) : _pseudo(pseudo), _tcp(pseudo) {}\n        ~Client() {}\n    private: // Atributes\n        int _id;\n        std::string _pseudo;\n        std::vector<ClientUdp> _udp;\n        ClientTcp _tcp;\n    public: // Operators\n        void operator<<(std::string);\n        void operator>>(std::string &);\n        void operator<(std::string);\n        void operator>(std::string &);\n    public:\n        std::string pseudo() const {return std::string(_pseudo.c_str());}\n};\n\n\n\n\nclass Client\n\n\n\n\nThis class is in a way the \"Mother class\" for the client side but without inheritence to the two other clients class.\n\n\nInside it, we can find in the public attributes the 2 others class ClientTcp & ClientUdp. The first one is a single argument ClientTcp, the second one is a vector of multiple ClientUdp.\n\n\nIt also contain some overload operators that make the communication easier. \n(4 in totals)\n\n\n\n\nConstructor\n\n\nClient(std::string pseudo) : _pseudo(pseudo), _tcp(pseudo)\n\n\n\n\nArguments:\n\n\n\n\n_pseudo\n : the pseudo of the client\n\n\n_tcp\n : the pseudo of the Tcp client \n(will be the same as the _pseudo argument)\n\n\n\n\nUsage: This function is the constructor of our class\n\n\n\n\nPseudo Function\n\n\nstd::string pseudo() const;\n\n\n\n\nReturn: This function return the pseudo of the client in a string",
+            "title": "Client"
+        },
+        {
+            "location": "/client/#the-client-class",
+            "text": "",
+            "title": "The Client Class"
+        },
+        {
+            "location": "/client/#the-class-itself",
+            "text": "#ifndef CLIENT_HPP_\n#define CLIENT_HPP_\n\n#define LOGIN \"{LOGIN}::\"\n#define REGISTER \"{REGISTER}::\"\n#define ASKFOR \"{ASKFOR}::\"\n#define SEP \"::\"\n\n#include <QtGui/QMainWindow>\n#include <QtCore/QObject>\n#include <QtNetwork/QUdpSocket>\n#include <QtNetwork/QTcpSocket>\n#include <QtNetwork/QHostAddress>\n#include <QtCore/QByteArray>\n#include <arpa/inet.h>\n#include <string>\n#include <iostream>\n#include <vector>\n\nclass Client {\n    public: // Constructor && Destructor\n        Client(std::string pseudo) : _pseudo(pseudo), _tcp(pseudo) {}\n        ~Client() {}\n    private: // Atributes\n        int _id;\n        std::string _pseudo;\n        std::vector<ClientUdp> _udp;\n        ClientTcp _tcp;\n    public: // Operators\n        void operator<<(std::string);\n        void operator>>(std::string &);\n        void operator<(std::string);\n        void operator>(std::string &);\n    public:\n        std::string pseudo() const {return std::string(_pseudo.c_str());}\n};  class Client  This class is in a way the \"Mother class\" for the client side but without inheritence to the two other clients class.  Inside it, we can find in the public attributes the 2 others class ClientTcp & ClientUdp. The first one is a single argument ClientTcp, the second one is a vector of multiple ClientUdp.  It also contain some overload operators that make the communication easier.  (4 in totals)",
+            "title": "The class itself"
+        },
+        {
+            "location": "/client/#constructor",
+            "text": "Client(std::string pseudo) : _pseudo(pseudo), _tcp(pseudo)",
+            "title": "Constructor"
+        },
+        {
+            "location": "/client/#arguments",
+            "text": "_pseudo  : the pseudo of the client  _tcp  : the pseudo of the Tcp client  (will be the same as the _pseudo argument)",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/client/#usage-this-function-is-the-constructor-of-our-class",
+            "text": "",
+            "title": "Usage: This function is the constructor of our class"
+        },
+        {
+            "location": "/client/#pseudo-function",
+            "text": "std::string pseudo() const;",
+            "title": "Pseudo Function"
+        },
+        {
+            "location": "/client/#return-this-function-return-the-pseudo-of-the-client-in-a-string",
+            "text": "",
+            "title": "Return: This function return the pseudo of the client in a string"
+        },
+        {
+            "location": "/clientt/",
+            "text": "The ClientTcp Class\n\n\nThe class itself\n\n\n\nclass ClientTcp {\npublic:\n        ClientTcp(std::string);\n        ~ClientTcp();\n        void onReadyRead();\n        void send(std::string message);\n        std::string receive();\n        int id() const {return _id;}\n\n    protected:\n    private:\n        std::string _pseudo;\n        QTcpSocket _sock;\n        int _id;\n};\n\n\n\n\nclass ClientTcp\n\n\n\n\nThis class is the one used in communications between the ClientTcp and the server. Is is contained as an attribute in the Client class.\n\n\nAs a mandatary, everything sent to the server is related to QT.\n\n\nIt has a pseudo, a QTcp socket and also an id.\n\n\n\n\nConstructor\n\n\nClientTcp(std::string pseudo);\n\n\n\n\nArguments:\n\n\npseudo\n : the pseudo of the Tcp client\n\n\nUsage: This function is the constructor of our class.\n\n\n\n\nOnReadyRead Function\n\n\nvoid onReadyRead();\n\n\n\n\nUsage: This function is called when we need to init the read function.\n\n\n\n\nSend Function\n\n\nvoid send(std::string message);\n\n\n\n\nArguments:\n\n\nmessage\n : the message to be send to the server\n\n\nUsage: This function is called when we need to send a message to the server.\n\n\n\n\nReceive Function\n\n\nstd::string receive();\n\n\n\n\nReturn : This function return the message received by the ClientTcp from the server.\n\n\n\n\nId Function\n\n\nint id() const;\n\n\n\n\nReturn : This function return the id of the ClientTcp in an int.",
+            "title": "ClientTCP"
+        },
+        {
+            "location": "/clientt/#the-clienttcp-class",
+            "text": "",
+            "title": "The ClientTcp Class"
+        },
+        {
+            "location": "/clientt/#the-class-itself",
+            "text": "class ClientTcp {\npublic:\n        ClientTcp(std::string);\n        ~ClientTcp();\n        void onReadyRead();\n        void send(std::string message);\n        std::string receive();\n        int id() const {return _id;}\n\n    protected:\n    private:\n        std::string _pseudo;\n        QTcpSocket _sock;\n        int _id;\n};  class ClientTcp  This class is the one used in communications between the ClientTcp and the server. Is is contained as an attribute in the Client class.  As a mandatary, everything sent to the server is related to QT.  It has a pseudo, a QTcp socket and also an id.",
+            "title": "The class itself"
+        },
+        {
+            "location": "/clientt/#constructor",
+            "text": "ClientTcp(std::string pseudo);",
+            "title": "Constructor"
+        },
+        {
+            "location": "/clientt/#arguments",
+            "text": "pseudo  : the pseudo of the Tcp client",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/clientt/#usage-this-function-is-the-constructor-of-our-class",
+            "text": "",
+            "title": "Usage: This function is the constructor of our class."
+        },
+        {
+            "location": "/clientt/#onreadyread-function",
+            "text": "void onReadyRead();",
+            "title": "OnReadyRead Function"
+        },
+        {
+            "location": "/clientt/#usage-this-function-is-called-when-we-need-to-init-the-read-function",
+            "text": "",
+            "title": "Usage: This function is called when we need to init the read function."
+        },
+        {
+            "location": "/clientt/#send-function",
+            "text": "void send(std::string message);",
+            "title": "Send Function"
+        },
+        {
+            "location": "/clientt/#arguments_1",
+            "text": "message  : the message to be send to the server",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/clientt/#usage-this-function-is-called-when-we-need-to-send-a-message-to-the-server",
+            "text": "",
+            "title": "Usage: This function is called when we need to send a message to the server."
+        },
+        {
+            "location": "/clientt/#receive-function",
+            "text": "std::string receive();",
+            "title": "Receive Function"
+        },
+        {
+            "location": "/clientt/#return-this-function-return-the-message-received-by-the-clienttcp-from-the-server",
+            "text": "",
+            "title": "Return : This function return the message received by the ClientTcp from the server."
+        },
+        {
+            "location": "/clientt/#id-function",
+            "text": "int id() const;",
+            "title": "Id Function"
+        },
+        {
+            "location": "/clientt/#return-this-function-return-the-id-of-the-clienttcp-in-an-int",
+            "text": "",
+            "title": "Return : This function return the id of the ClientTcp in an int."
+        },
+        {
+            "location": "/clientu/",
+            "text": "The ClientUdp Class\n\n\nThe class itself\n\n\nclass ClientUdp {\n    public:\n        ClientUdp(int);\n        ~ClientUdp();\n        void onReadyRead();\n        void send(std::string message);\n        std::string receive();\n\n    protected:\n    private:\n        int _id;\n        QUdpSocket _sock;\n};\n\n\n\n\nclass Client\n\n\n\n\nThis class is the one used in communications between the ClientUdp and other(s) ClientUdp. It is contained as an attribute in the Client class.\n\n\nAs a mandatary, everything sent to the other(s) is related to QT.\n\n\nIt has an id and also a QUdp socket.\n\n\n\n\nConstructor\n\n\nClientUdp(int id);\n\n\n\n\nArguments:\n\n\nid\n : the id of the Udp client.\n\n\nUsage: This function is the constructor of our class.\n\n\n\n\nvoid onReadyRead();\n\n\n\n\nUsage: This function is called when we need to init the read function.\n\n\n\n\nSend Function\n\n\nvoid send(std::string message);\n\n\n\n\nArguments:\n\n\nmessage\n : the message to be send to the other(s) Udp client(s).\n\n\nUsage: This function is called when we need to send a message to the other(s) Udp client(s).\n\n\n\n\nReceive Function\n\n\nstd::string receive();\n\n\n\n\nReturn : This function return the message received by the ClientUdp from an other Udp client.",
+            "title": "ClientUDP"
+        },
+        {
+            "location": "/clientu/#the-clientudp-class",
+            "text": "",
+            "title": "The ClientUdp Class"
+        },
+        {
+            "location": "/clientu/#the-class-itself",
+            "text": "class ClientUdp {\n    public:\n        ClientUdp(int);\n        ~ClientUdp();\n        void onReadyRead();\n        void send(std::string message);\n        std::string receive();\n\n    protected:\n    private:\n        int _id;\n        QUdpSocket _sock;\n};  class Client  This class is the one used in communications between the ClientUdp and other(s) ClientUdp. It is contained as an attribute in the Client class.  As a mandatary, everything sent to the other(s) is related to QT.  It has an id and also a QUdp socket.",
+            "title": "The class itself"
+        },
+        {
+            "location": "/clientu/#constructor",
+            "text": "ClientUdp(int id);",
+            "title": "Constructor"
+        },
+        {
+            "location": "/clientu/#arguments",
+            "text": "id  : the id of the Udp client.",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/clientu/#usage-this-function-is-the-constructor-of-our-class",
+            "text": "void onReadyRead();",
+            "title": "Usage: This function is the constructor of our class."
+        },
+        {
+            "location": "/clientu/#usage-this-function-is-called-when-we-need-to-init-the-read-function",
+            "text": "",
+            "title": "Usage: This function is called when we need to init the read function."
+        },
+        {
+            "location": "/clientu/#send-function",
+            "text": "void send(std::string message);",
+            "title": "Send Function"
+        },
+        {
+            "location": "/clientu/#arguments_1",
+            "text": "message  : the message to be send to the other(s) Udp client(s).",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/clientu/#usage-this-function-is-called-when-we-need-to-send-a-message-to-the-others-udp-clients",
+            "text": "",
+            "title": "Usage: This function is called when we need to send a message to the other(s) Udp client(s)."
+        },
+        {
+            "location": "/clientu/#receive-function",
+            "text": "std::string receive();",
+            "title": "Receive Function"
+        },
+        {
+            "location": "/clientu/#return-this-function-return-the-message-received-by-the-clientudp-from-an-other-udp-client",
+            "text": "",
+            "title": "Return : This function return the message received by the ClientUdp from an other Udp client."
+        },
+        {
+            "location": "/server/",
+            "text": "Server\n\n\nThe class itself\n\n\n#include \"DB/Bdd.hpp\"\n#include <ctime>\n#include <iostream>\n#include <string>\n#include <cstring>\n#include <fstream>\n#include <stdlib.h>\n#include <boost/filesystem.hpp>\n#include <boost/bind.hpp>\n#include <boost/shared_ptr.hpp>\n#include <boost/enable_shared_from_this.hpp>\n#include <boost/asio.hpp>\n#include <boost/algorithm/string/classification.hpp>\n#include <boost/algorithm/string/split.hpp>\n\nclass Server\n{\nprivate:\n    boost::asio::ip::tcp::acceptor acceptor_;\n    void start_accept()\n    {\n        conHandler::pointer connection =\n            conHandler::create(acceptor_.get_executor().context());\n        acceptor_.async_accept(connection->socket(),\n                               boost::bind(&Server::handle_accept, this, connection,\n                                           boost::asio::placeholders::error));\n    }\n\npublic:\n    Server(boost::asio::io_service &io_service) : acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 1234))\n    {\n        start_accept();\n    }\n\n    void handle_accept(conHandler::pointer connection, const boost::system::error_code &err)\n    {\n        if (!err)\n        {\n            connection->start();\n        }\n        start_accept();\n    }\n};\n\n\n\n\nclass Server\n\n\n\n\nThis class is the one used to handle client's connection. It also contain the database used for storage all data.\n\n\nAs a mandatary, every client's connections are handled with a Boost::Asio encapsulation, we also encapsulated SQlite.\n\n\nIt has an boost::asio::acceptator as attribute.\n\n\n\n\nConstructor\n\n\nServer(boost::asio::io_service &io_service) : acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 1234))\n\n\n\n\nArguments:\n\n\nio_service\n : the core I/O functionality for users of the asynchronous I/O objects.\n\n\nUsage: This function is the constructor of our class.\n\n\n\n\nStart Accept Function\n\n\nvoid start_accept();\n\n\n\n\nUsage: This function accepts the client's connection.\n\n\n\n\nHandle Accept Function\n\n\nvoid handle_accept(conHandler::pointer connection, const boost::system::error_code &err)\n\n\n\n\nArguments:\n\n\nconnection\n : client's connection handler.\n\n\nerr\n : helps throw an error instance.\n\n\nUsage: This function handle the client's I/O operations.",
+            "title": "Server"
+        },
+        {
+            "location": "/server/#server",
+            "text": "",
+            "title": "Server"
+        },
+        {
+            "location": "/server/#the-class-itself",
+            "text": "#include \"DB/Bdd.hpp\"\n#include <ctime>\n#include <iostream>\n#include <string>\n#include <cstring>\n#include <fstream>\n#include <stdlib.h>\n#include <boost/filesystem.hpp>\n#include <boost/bind.hpp>\n#include <boost/shared_ptr.hpp>\n#include <boost/enable_shared_from_this.hpp>\n#include <boost/asio.hpp>\n#include <boost/algorithm/string/classification.hpp>\n#include <boost/algorithm/string/split.hpp>\n\nclass Server\n{\nprivate:\n    boost::asio::ip::tcp::acceptor acceptor_;\n    void start_accept()\n    {\n        conHandler::pointer connection =\n            conHandler::create(acceptor_.get_executor().context());\n        acceptor_.async_accept(connection->socket(),\n                               boost::bind(&Server::handle_accept, this, connection,\n                                           boost::asio::placeholders::error));\n    }\n\npublic:\n    Server(boost::asio::io_service &io_service) : acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 1234))\n    {\n        start_accept();\n    }\n\n    void handle_accept(conHandler::pointer connection, const boost::system::error_code &err)\n    {\n        if (!err)\n        {\n            connection->start();\n        }\n        start_accept();\n    }\n};  class Server  This class is the one used to handle client's connection. It also contain the database used for storage all data.  As a mandatary, every client's connections are handled with a Boost::Asio encapsulation, we also encapsulated SQlite.  It has an boost::asio::acceptator as attribute.",
+            "title": "The class itself"
+        },
+        {
+            "location": "/server/#constructor",
+            "text": "Server(boost::asio::io_service &io_service) : acceptor_(io_service, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 1234))",
+            "title": "Constructor"
+        },
+        {
+            "location": "/server/#arguments",
+            "text": "io_service  : the core I/O functionality for users of the asynchronous I/O objects.",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/server/#usage-this-function-is-the-constructor-of-our-class",
+            "text": "",
+            "title": "Usage: This function is the constructor of our class."
+        },
+        {
+            "location": "/server/#start-accept-function",
+            "text": "void start_accept();",
+            "title": "Start Accept Function"
+        },
+        {
+            "location": "/server/#usage-this-function-accepts-the-clients-connection",
+            "text": "",
+            "title": "Usage: This function accepts the client's connection."
+        },
+        {
+            "location": "/server/#handle-accept-function",
+            "text": "void handle_accept(conHandler::pointer connection, const boost::system::error_code &err)",
+            "title": "Handle Accept Function"
+        },
+        {
+            "location": "/server/#arguments_1",
+            "text": "connection  : client's connection handler.  err  : helps throw an error instance.",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/server/#usage-this-function-handle-the-clients-io-operations",
+            "text": "",
+            "title": "Usage: This function handle the client's I/O operations."
+        },
+        {
+            "location": "/exception/",
+            "text": "The Exception class\n\n\nThe class itself\n\n\n#ifndef EXCEPTION_HPP_\n#define EXCEPTION_HPP_\n\n#include <iostream>\n#include <exception>\n#include <string>\n\nclass Exception : public std::exception{\npublic:\n    Exception(const std::string &_where, const std::string &_what) : std::exception() {\n        where = _where;\n        what = _what;\n        errorLog();\n        exit(0);\n    }\n    void    errorLog(void){\n        std::cerr << \"\\n[!] Program crashed at \" << where << \":\\n[!] \" << what << std::endl;\n    }\nprivate:\n    std::string where;\n    std::string what;\n};\n\n#endif\n\n\n\n\nclass Exception : public std::exception\n\n\n\n\nThis class is an extension of the std::exception library by inheritence.\n\n\n\n\nConstructor\n\n\nException(const std::string &_where, const std::string &_what) : std::exception();\n\n\n\n\n\nArguments:\n\n\n\n\nwhere\n : the place where there is an error\n\n\nwhat\n : the purpose of the error\n\n\n\n\nUsage: This function is the constructor of our class.\n\n\n\n\nError Function\n\n\nvoid errorLog(void);\n\n\n\n\nUsage: This function is called when we need to print on the error output the place and the purpose of an error.",
+            "title": "Exception"
+        },
+        {
+            "location": "/exception/#the-exception-class",
+            "text": "",
+            "title": "The Exception class"
+        },
+        {
+            "location": "/exception/#the-class-itself",
+            "text": "#ifndef EXCEPTION_HPP_\n#define EXCEPTION_HPP_\n\n#include <iostream>\n#include <exception>\n#include <string>\n\nclass Exception : public std::exception{\npublic:\n    Exception(const std::string &_where, const std::string &_what) : std::exception() {\n        where = _where;\n        what = _what;\n        errorLog();\n        exit(0);\n    }\n    void    errorLog(void){\n        std::cerr << \"\\n[!] Program crashed at \" << where << \":\\n[!] \" << what << std::endl;\n    }\nprivate:\n    std::string where;\n    std::string what;\n};\n\n#endif  class Exception : public std::exception  This class is an extension of the std::exception library by inheritence.",
+            "title": "The class itself"
+        },
+        {
+            "location": "/exception/#constructor",
+            "text": "Exception(const std::string &_where, const std::string &_what) : std::exception();",
+            "title": "Constructor"
+        },
+        {
+            "location": "/exception/#arguments",
+            "text": "where  : the place where there is an error  what  : the purpose of the error",
+            "title": "Arguments:"
+        },
+        {
+            "location": "/exception/#usage-this-function-is-the-constructor-of-our-class",
+            "text": "",
+            "title": "Usage: This function is the constructor of our class."
+        },
+        {
+            "location": "/exception/#error-function",
+            "text": "void errorLog(void);",
+            "title": "Error Function"
+        },
+        {
+            "location": "/exception/#usage-this-function-is-called-when-we-need-to-print-on-the-error-output-the-place-and-the-purpose-of-an-error",
+            "text": "",
+            "title": "Usage: This function is called when we need to print on the error output the place and the purpose of an error."
+        }
+    ]
+}
